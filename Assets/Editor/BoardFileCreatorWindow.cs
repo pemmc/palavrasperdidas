@@ -138,7 +138,8 @@ namespace BizzyBeeGames.WordGame
 			// If we are re-creating all boards or the board does not exist then run the algo
 			if ((recreateAllBoards || Resources.Load<TextAsset>(Utilities.BoardFilesDirectory + "/" + boardId) == null) && categoryLevelIndex < currentCategoryInfo.levelInfos.Count)
 			{
-				wordBoardCreator.StartCreatingBoard(boardId, currentCategoryInfo.levelInfos[categoryLevelIndex].words, OnWordBoardFinished, 5000L);
+				//wordBoardCreator.StartCreatingBoard(boardId, currentCategoryInfo.levelInfos[categoryLevelIndex].words, OnWordBoardFinished, 5000L);
+				wordBoardCreator.StartCreatingBoard(boardId, new string[3] { "ABCD", "EFGH", "IJLM" }, OnWordBoardFinished, 5000L);
 			}
 			else
 			{
@@ -146,31 +147,6 @@ namespace BizzyBeeGames.WordGame
 				OnWordBoardFinished(null);
 			}
 		}
-
-		private void CreateBoardFileMegaquiz()
-		{
-			// Get the board id for the board we want to generate
-			CategoryInfo currentCategoryInfo = gameManagerReference.CategoryInfos[categoryIndex];
-			string boardId = Utilities.FormatBoardId(currentCategoryInfo.name, categoryLevelIndex);
-
-
-			//Criar estrutura de palavras
-			string id = "MegaquizDC";
-			string[] words = { "JESUS CRISTO", "DEUS", "FIEL" };
-
-
-			// If we are re-creating all boards or the board does not exist then run the algo
-			if ((recreateAllBoards || Resources.Load<TextAsset>(Utilities.BoardFilesDirectory + "/" + boardId) == null) && categoryLevelIndex < currentCategoryInfo.levelInfos.Count)
-			{
-				wordBoardCreator.StartCreatingBoard(boardId, currentCategoryInfo.levelInfos[categoryLevelIndex].words, OnWordBoardFinished, 5000L);
-			}
-			else
-			{
-				// Just call this to move to the next word board
-				OnWordBoardFinished(null);
-			}
-		}
-
 
 		private void OnWordBoardFinished(WordBoard wordBoard)
 		{
@@ -184,6 +160,7 @@ namespace BizzyBeeGames.WordGame
 			if (wordBoard != null)
 			{
 				Utilities.SaveWordBoard(wordBoard, Utilities.BoardFilesDirectory);
+				
 				AssetDatabase.Refresh();
 			}
 			

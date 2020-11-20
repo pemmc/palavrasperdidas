@@ -99,7 +99,7 @@ namespace BizzyBeeGames.WordGame
 						AbortBoardCreation(id);
 
 						StartCreatingBoard(id, words, callback, restartTimer);
-
+						
 						break;
 					}
 				}

@@ -127,7 +127,7 @@ namespace BizzyBeeGames.WordGame
 		{
 			get
 			{
-				// If the list of Category Infos doesn't already contain a daily puzzle info then add it...
+				// If the list of Category Infos doesn't already contain a daily puzzle info then add it
 				if (!categoryInfos.Contains(DailyPuzzleInfo))
 				{
 					categoryInfos.Add(DailyPuzzleInfo);
@@ -141,7 +141,7 @@ namespace BizzyBeeGames.WordGame
 		{
 			get
 			{
-				// Create a new CategoryInfo for the daily puzzles....
+				// Create a new CategoryInfo for the daily puzzles
 				if (dailyPuzzleInfo == null)
 				{
 					dailyPuzzleInfo 			= new CategoryInfo();
