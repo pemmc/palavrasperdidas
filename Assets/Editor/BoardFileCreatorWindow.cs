@@ -8,26 +8,26 @@ namespace BizzyBeeGames.WordGame
 	{
 		#region Member Variables
 
-		private GameManager	gameManagerReference;
-		private bool		recreateAllBoards;
+		private GameManager gameManagerReference;
+		private bool recreateAllBoards;
 
-		private bool				isCreatingBoards;
-		private WordBoardCreator	wordBoardCreator;
-		private int					totalFilesToCreate;
-		private int					totalFilesCreated;
-		private int					categoryIndex;
-		private int					categoryLevelIndex;
+		private bool isCreatingBoards;
+		private WordBoardCreator wordBoardCreator;
+		private int totalFilesToCreate;
+		private int totalFilesCreated;
+		private int categoryIndex;
+		private int categoryLevelIndex;
 
 		#endregion
 
 		#region Unity Methods
 
-		[MenuItem ("Window/Board File Creator")]
+		[MenuItem("Window/Board File Creator")]
 		public static void ShowWindow()
 		{
 			EditorWindow.GetWindow<BoardFileCreatorWindow>("Board File Creator").Show();
 		}
-		
+
 		private void OnDestroy()
 		{
 			// If we were creating boards then destroy the WordBoardCreator
@@ -43,9 +43,9 @@ namespace BizzyBeeGames.WordGame
 			// Call the update loop on the WordBoardCreator
 			if (isCreatingBoards && wordBoardCreator != null)
 			{
-				string	title		= string.Format("Creating Board File {0}/{1}", totalFilesCreated, totalFilesToCreate);
-				string	info		= string.Format("Category: {0}, Level: {1}", gameManagerReference.CategoryInfos[categoryIndex].name, categoryLevelIndex + 1);
-				float	progress	= (float)totalFilesCreated / (float)totalFilesToCreate;
+				string title = string.Format("Creating Board File {0}/{1}", totalFilesCreated, totalFilesToCreate);
+				string info = string.Format("Category: {0}, Level: {1}", gameManagerReference.CategoryInfos[categoryIndex].name, categoryLevelIndex + 1);
+				float progress = (float)totalFilesCreated / (float)totalFilesToCreate;
 
 				bool cancelled = EditorUtility.DisplayCancelableProgressBar(title, info, progress);
 
@@ -95,7 +95,7 @@ namespace BizzyBeeGames.WordGame
 			}
 
 			recreateAllBoards = EditorGUILayout.Toggle(new GUIContent("Re-Create All", "Check this if you would like to delete all board files and re-create them."), recreateAllBoards);
-		
+
 			EditorGUILayout.Space();
 
 			if (GUILayout.Button("Create Board Files"))
@@ -132,14 +132,13 @@ namespace BizzyBeeGames.WordGame
 		private void CreateBoardFile()
 		{
 			// Get the board id for the board we want to generate
-			CategoryInfo	currentCategoryInfo	= gameManagerReference.CategoryInfos[categoryIndex];
-			string			boardId				= Utilities.FormatBoardId(currentCategoryInfo.name, categoryLevelIndex);
+			CategoryInfo currentCategoryInfo = gameManagerReference.CategoryInfos[categoryIndex];
+			string boardId = Utilities.FormatBoardId(currentCategoryInfo.name, categoryLevelIndex);
 
 			// If we are re-creating all boards or the board does not exist then run the algo
 			if ((recreateAllBoards || Resources.Load<TextAsset>(Utilities.BoardFilesDirectory + "/" + boardId) == null) && categoryLevelIndex < currentCategoryInfo.levelInfos.Count)
 			{
-				//wordBoardCreator.StartCreatingBoard(boardId, currentCategoryInfo.levelInfos[categoryLevelIndex].words, OnWordBoardFinished, 5000L);
-				wordBoardCreator.StartCreatingBoard(boardId, new string[3] { "ABCD", "EFGH", "IJLM" }, OnWordBoardFinished, 5000L);
+				wordBoardCreator.StartCreatingBoard(boardId, currentCategoryInfo.levelInfos[categoryLevelIndex].words, OnWordBoardFinished, 5000L);
 			}
 			else
 			{
@@ -147,6 +146,26 @@ namespace BizzyBeeGames.WordGame
 				OnWordBoardFinished(null);
 			}
 		}
+
+		private void CreateBoardFileMegaquiz()
+		{
+			// Get the board id for the board we want to generate
+			CategoryInfo currentCategoryInfo = gameManagerReference.CategoryInfos[categoryIndex];
+			string boardId = Utilities.FormatBoardId(currentCategoryInfo.name, categoryLevelIndex);
+
+
+			// If we are re-creating all boards or the board does not exist then run the algo
+			if ((recreateAllBoards || Resources.Load<TextAsset>(Utilities.BoardFilesDirectory + "/" + boardId) == null) && categoryLevelIndex < currentCategoryInfo.levelInfos.Count)
+			{
+				wordBoardCreator.StartCreatingBoard(boardId, currentCategoryInfo.levelInfos[categoryLevelIndex].words, OnWordBoardFinished, 5000L);
+			}
+			else
+			{
+				// Just call this to move to the next word board
+				OnWordBoardFinished(null);
+			}
+		}
+
 
 		private void OnWordBoardFinished(WordBoard wordBoard)
 		{
@@ -160,17 +179,16 @@ namespace BizzyBeeGames.WordGame
 			if (wordBoard != null)
 			{
 				Utilities.SaveWordBoard(wordBoard, Utilities.BoardFilesDirectory);
-				
 				AssetDatabase.Refresh();
 			}
-			
+
 			categoryLevelIndex++;
-			
+
 			if (categoryLevelIndex >= gameManagerReference.CategoryInfos[categoryIndex].levelInfos.Count)
 			{
 				categoryIndex++;
 				categoryLevelIndex = 0;
-				
+
 				if (categoryIndex >= gameManagerReference.CategoryInfos.Count)
 				{
 					StopCreatingBoards();
@@ -180,7 +198,7 @@ namespace BizzyBeeGames.WordGame
 					return;
 				}
 			}
-			
+
 			CreateBoardFile();
 		}
 
@@ -190,13 +208,13 @@ namespace BizzyBeeGames.WordGame
 			{
 				DestroyImmediate(wordBoardCreator.gameObject);
 			}
-			
-			isCreatingBoards	= false;
-			wordBoardCreator	= null;
-			totalFilesToCreate	= 0;
-			totalFilesCreated	= 0;
-			categoryIndex		= 0;
-			categoryLevelIndex	= 0;
+
+			isCreatingBoards = false;
+			wordBoardCreator = null;
+			totalFilesToCreate = 0;
+			totalFilesCreated = 0;
+			categoryIndex = 0;
+			categoryLevelIndex = 0;
 
 			// Null out the DailyPuzzleInfo since its being saved in editor
 			gameManagerReference.CategoryInfos.Remove(gameManagerReference.DailyPuzzleInfo);

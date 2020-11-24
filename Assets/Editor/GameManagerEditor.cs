@@ -204,6 +204,7 @@ namespace BizzyBeeGames.WordGame
 
 				// Draw the TextField
 				levelWords.GetArrayElementAtIndex(i).stringValue = EditorGUILayout.TextField(levelWords.GetArrayElementAtIndex(i).stringValue);
+				//levelWords.GetArrayElementAtIndex(i).stringValue = "Meu Valor" + "_" + i;
 
 				// Draw the delete button
 				if (GUILayout.Button("-", GUILayout.Width(20), GUILayout.Height(14)))

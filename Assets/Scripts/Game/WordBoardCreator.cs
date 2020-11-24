@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 
+using BizzyBeeGames.WordGame;
+
 namespace BizzyBeeGames.WordGame
 {
 	/// <summary>
@@ -199,6 +201,8 @@ namespace BizzyBeeGames.WordGame
 		/// <summary>
 		/// Starts a new thread that will process a board in the background. The OnBoardCreated callback will be called when the board is complete
 		/// </summary>
+		///
+		//StartCreatingBoard("teste1", new string[3] { "ABCD", "EFGH", "IJLM" }; , BizzyBeeGames.WordGame.WordBoardCreator.OnBoardFinished)
 		private bool StartCreatingBoard(string id, string[] words, OnBoardFinished callback, int randomNumberSeed, long restartTime)
 		{
 			if (IsCreatingBoard(id))

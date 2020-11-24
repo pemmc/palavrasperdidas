@@ -5044,7 +5044,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.6983542}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: 25.275269}
+  m_AnchoredPosition: {x: 0, y: 25.27539}
   m_SizeDelta: {x: 225.88235, y: -486.4903}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1451561954
@@ -5492,10 +5492,20 @@ MonoBehaviour:
     icon: {fileID: 21300000, guid: 09d7d233659364d4bb7f6bd633a97654, type: 3}
     levelInfos:
     - words:
-      - word
+      - aqui
+      - nao
+      - mexo
+    - words:
+      - aqui2
+      - nao2
+      - mexo2
+    - words:
+      - aqui3
+      - nao3
+      - mexo3
   dailyPuzzles:
   - words:
-    - IDENTICAL
+    - ABC
   dailyPuzzleIcon: {fileID: 21300000, guid: cf292c56df690439ea91a7764c00e835, type: 3}
   dailyPuzzleDisplayName: Daily Puzzle
   iapHintInfos:
